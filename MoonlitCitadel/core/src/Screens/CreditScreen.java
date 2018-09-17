@@ -1,8 +1,10 @@
 package Screens;
 
 import com.badlogic.gdx.Screen;
+import com.mygdx.game.MoonlitCitadel;
 
 public class CreditScreen implements Screen {
+    public static final String TAG = CreditScreen.class.getSimpleName();
     @Override
     public void show() {
 

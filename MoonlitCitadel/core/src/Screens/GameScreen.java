@@ -1,8 +1,10 @@
 package Screens;
 
 import com.badlogic.gdx.Screen;
+import com.mygdx.game.MoonlitCitadel;
 
 public class GameScreen implements Screen {
+    public static final String TAG = GameScreen.class.getSimpleName();
     @Override
     public void show() {
 
