@@ -12,6 +12,7 @@ public class LoadScreen implements Screen {
     private SpriteBatch batch;
     private Texture img;
     private MoonlitCitadel game;
+    private float waitTime = 2f;
 
     public LoadScreen(MoonlitCitadel game, SpriteBatch batch) {
         this.game = game;
@@ -28,11 +29,17 @@ public class LoadScreen implements Screen {
     @Override
     public void render(float delta) {
         Gdx.app.log(TAG, "in loading screen render method");
-        Gdx.gl.glClearColor(1, 0, 0, 1);
+        Gdx.gl.glClearColor(0, 1, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         batch.draw(img, 0, 0);
         batch.end();
+        waitTime-=delta;
+        if(waitTime<=0){
+            game.setScreen(MoonlitCitadel.SCREENTYPE.MENU);
+            waitTime=2f;
+        }
+
     }
 
     @Override
@@ -58,5 +65,6 @@ public class LoadScreen implements Screen {
     @Override
     public void dispose() {
         Gdx.app.log(TAG, "in loading screen dispose method");
+        img.dispose();
     }
 }

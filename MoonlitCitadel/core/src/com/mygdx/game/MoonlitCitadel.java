@@ -69,14 +69,15 @@ public class MoonlitCitadel extends Game {
 
 	@Override
 	public void create () {
+		Gdx.app.log(TAG,"In create method for main game class");
     	screenTable = new Hashtable<SCREENTYPE, Screen>();
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
 		setScreen(SCREENTYPE.LOAD);
-		Gdx.app.log(TAG,"In create method for main game class");
+
 	}
 
-	/*@Override
+/*	@Override
 	public void render () {
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
