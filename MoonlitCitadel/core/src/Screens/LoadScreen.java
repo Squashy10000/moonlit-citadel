@@ -36,7 +36,7 @@ public class LoadScreen implements Screen {
         batch.end();
         waitTime-=delta;
         if(waitTime<=0){
-            game.setScreen(MoonlitCitadel.SCREENTYPE.MENU);
+            game.setScreen(MoonlitCitadel.SCREENTYPE.GAME);
             waitTime=2f;
         }
 
