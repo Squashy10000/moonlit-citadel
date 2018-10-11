@@ -73,7 +73,7 @@ public class MoonlitCitadel extends Game {
     	screenTable = new Hashtable<SCREENTYPE, Screen>();
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
-		setScreen(SCREENTYPE.LOAD);
+		setScreen(SCREENTYPE.MENU);
 
 	}
 

@@ -12,10 +12,12 @@ public class MenuScreen implements Screen {
     private SpriteBatch batch;
     private Texture img;
     private MoonlitCitadel game;
+    private float waitTime = 2f;
 
     public MenuScreen(MoonlitCitadel game, SpriteBatch batch) {
         this.batch = batch;
         this.game = game;
+        img = new Texture("badlogic.jpg");
     }
 
     public static final String TAG = MenuScreen.class.getSimpleName();
@@ -29,6 +31,14 @@ public class MenuScreen implements Screen {
         Gdx.app.log(TAG, "menu render");
         Gdx.gl.glClearColor(1, 0, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        batch.begin();
+        batch.draw(img, 0, 0);
+        batch.end();
+        waitTime-=delta;
+        if(waitTime<=0){
+            game.setScreen(MoonlitCitadel.SCREENTYPE.LOAD);
+            waitTime=2f;
+        }
 
     }
 
