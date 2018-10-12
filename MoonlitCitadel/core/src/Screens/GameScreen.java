@@ -1,6 +1,7 @@
 package Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -43,7 +44,7 @@ public class GameScreen implements Screen {
         this.game = game;
 
         gravity = new Vector2(0,-1f);
-        world = new World(gravity, false);
+        world = new World(gravity, true);
         b2dr = new Box2DDebugRenderer();
         camera = new OrthographicCamera();
 
@@ -75,18 +76,18 @@ public class GameScreen implements Screen {
         bdef.position.set(position.x, position.y);
         body = world.createBody(bdef);
         Shape shape;
-    switch (bodyType){
-        case 0:
-            shape = new CircleShape();
-            shape.setRadius(size/2);
-            break;
-        case 1:
-            shape = new PolygonShape();
-            ((PolygonShape)shape).setAsBox(size/2, size/2);
-            break;
-        default:shape = new CircleShape();
-            shape.setRadius(size/2);
-    }
+        switch (bodyType){
+            case 0:
+                shape = new CircleShape();
+                shape.setRadius(size/2);
+                break;
+            case 1:
+                shape = new PolygonShape();
+                ((PolygonShape)shape).setAsBox(size/2, size/2);
+                break;
+            default:shape = new CircleShape();
+                shape.setRadius(size/2);
+        }
 
 
         fdef.shape = shape;
@@ -105,21 +106,38 @@ public class GameScreen implements Screen {
     public static final String TAG = GameScreen.class.getSimpleName();
     @Override
     public void show() {
-        for(int i = 2; i<5; i++) {
-            random = MathUtils.random( 1, 5);
-            body = createBody(new Vector2(i, camera.viewportHeight), random, 1f, BodyDef.BodyType.DynamicBody, 0, PLAYER, (short)(GROUND|ENEMY));
-        }
+
         for(int i = 3; i<6; i++) {
             random = MathUtils.random( 1, 5);
-            body = createBody(new Vector2(i, camera.viewportHeight+10), random, 1f, BodyDef.BodyType.DynamicBody, 0, ENEMY, (short)(GROUND|PLAYER));
+            body = createBody(new Vector2(i, camera.viewportHeight+10), random, 9.8f, BodyDef.BodyType.DynamicBody,
+                    0, ENEMY, (short)(GROUND|PLAYER));
         }
-    body2 = createBody(new Vector2(camera.viewportWidth/2, -camera.viewportHeight/2 +1), camera.viewportWidth, 0, BodyDef.BodyType.StaticBody, 1, GROUND, PLAYER);
+        body = createBody(new Vector2(camera.viewportWidth/2, camera.viewportHeight), random, 9.8f, BodyDef.BodyType.DynamicBody,
+                0, PLAYER, (short)(GROUND|ENEMY));
+        body2 = createBody(new Vector2(camera.viewportWidth/2, -camera.viewportHeight/2 +1), camera.viewportWidth, 0, BodyDef.BodyType.StaticBody, 1, GROUND, PLAYER);
+    }
+
+    public void movePlayer(){
+        if (Gdx.input.isKeyPressed(Input.Keys.A)){
+            body.setLinearVelocity(-4f,body.getLinearVelocity().y);
+        }
+       else if (Gdx.input.isKeyPressed(Input.Keys.D)){
+            body.setLinearVelocity(4f,body.getLinearVelocity().y);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.W)){
+            body.applyLinearImpulse(0f, 3f, body.getPosition().x, body.getPosition().y, true);
+            body.setAngularVelocity(0f);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)){
+            body.setLinearVelocity(0,0);
+        }
     }
 
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0 , 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        movePlayer();
         camera.update();
         world.step(delta,6,2);
 
@@ -149,7 +167,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-    b2dr.dispose();
-    world.dispose();
+        b2dr.dispose();
+        world.dispose();
     }
 }
