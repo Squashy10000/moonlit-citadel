@@ -9,7 +9,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.MoonlitCitadel;
+
+import Helpers.Figures;
 
 public class GameScreen implements Screen {
 
@@ -22,6 +26,7 @@ public class GameScreen implements Screen {
     private Vector2 gravity;
     //view
     private OrthographicCamera camera;
+    private Viewport gameViewport;
     private Box2DDebugRenderer b2dr;
 
     public GameScreen(MoonlitCitadel game, SpriteBatch batch) {
@@ -32,8 +37,10 @@ public class GameScreen implements Screen {
         world = new World(gravity, false);
         b2dr = new Box2DDebugRenderer();
         camera = new OrthographicCamera();
+        gameViewport = new FitViewport(Figures.VIRTUALWIDTH,Figures.VIRTUALHEIGHT,camera);
+        camera.position.set(gameViewport.getWorldWidth()/2, gameViewport.getWorldHeight()/2,0);
 
-        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+       // camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
     public static final String TAG = GameScreen.class.getSimpleName();
@@ -49,7 +56,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+    gameViewport.update(width, height);
     }
 
     @Override

@@ -7,11 +7,16 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.MoonlitCitadel;
 
+import Helpers.GameInput;
+
 public class MenuScreen implements Screen {
 
     private SpriteBatch batch;
     private Texture img;
     private MoonlitCitadel game;
+
+
+    private GameInput gameInput;
 
     public MenuScreen(MoonlitCitadel game, SpriteBatch batch) {
         this.batch = batch;
