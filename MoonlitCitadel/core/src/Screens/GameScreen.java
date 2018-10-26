@@ -1,5 +1,6 @@
 package Screens;
 
+import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -14,6 +15,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.MoonlitCitadel;
 
 import Helpers.Figures;
+import Helpers.GameInput;
 
 public class GameScreen implements Screen {
 
@@ -28,6 +30,10 @@ public class GameScreen implements Screen {
     private OrthographicCamera camera;
     private Viewport gameViewport;
     private Box2DDebugRenderer b2dr;
+    //controls
+    private GameInput gameInput;
+    //ashley
+    private PooledEngine engine;
 
     public GameScreen(MoonlitCitadel game, SpriteBatch batch) {
         this.batch = batch;
@@ -40,6 +46,9 @@ public class GameScreen implements Screen {
         gameViewport = new FitViewport(Figures.VIRTUALWIDTH,Figures.VIRTUALHEIGHT,camera);
         camera.position.set(gameViewport.getWorldWidth()/2, gameViewport.getWorldHeight()/2,0);
 
+        gameInput = new GameInput(gameViewport);
+
+        engine = new PooledEngine(100,500,300,1000);
        // camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
