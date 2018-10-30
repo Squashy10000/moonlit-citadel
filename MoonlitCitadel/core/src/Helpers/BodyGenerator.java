@@ -1,5 +1,6 @@
 package Helpers;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -16,10 +17,11 @@ public class BodyGenerator {
     }
 
 
-    public Body createBody(Vector2 position, float size, float force, BodyDef.BodyType type, int bodyType, short self, short interactions){
+    public Body createBody(Entity entity, Vector2 position, Vector2 dimensions,
+                           BodyDef.BodyType type, int bodyType, FixtureDef fixtureDef){
         Body body;
         BodyDef bdef = new BodyDef();
-        FixtureDef fdef = new FixtureDef();
+        FixtureDef fdef = fixtureDef;
 
         switch (type) {
             case StaticBody:
@@ -32,29 +34,28 @@ public class BodyGenerator {
                 bdef.type = BodyDef.BodyType.KinematicBody;
                 break;
         }
-        bdef.gravityScale = force;
-        bdef.position.set(position.x, position.y);
-        body = world.createBody(bdef);
+        bdef.gravityScale = 1;
         Shape shape;
         switch (bodyType){
             case 0:
+            default:
                 shape = new CircleShape();
-                shape.setRadius(size/2);
+                shape.setRadius(dimensions.x/2);
+                bdef.position.set(dimensions.x/2, dimensions.x/2);
                 break;
             case 1:
                 shape = new PolygonShape();
-                ((PolygonShape)shape).setAsBox(size/2, size/2);
+                ((PolygonShape)shape).setAsBox(dimensions.x/2, dimensions.y/2);
+                bdef.position.set(dimensions.x/2, dimensions.y/2);
                 break;
-            default:shape = new CircleShape();
-                shape.setRadius(size/2);
         }
 
+        body = world.createBody(bdef);
 
         fdef.shape = shape;
         fdef.density = 1f;
         fdef.restitution = .75f;
-        fdef.filter.categoryBits = self;
-        fdef.filter.maskBits = interactions;
+        fdef.friction = 0;
         body.createFixture(fdef);
 
         shape.dispose();
@@ -62,5 +63,7 @@ public class BodyGenerator {
         return body;
 
     }
+
+
 }
 
