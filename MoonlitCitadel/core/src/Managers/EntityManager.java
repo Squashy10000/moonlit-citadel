@@ -66,7 +66,7 @@ public class EntityManager {
 
     private Entity addPlayerComponent(Entity entity){
         PlayerComponent playerComponent = engine.createComponent(PlayerComponent.class);
-        entity.add(PlayerComponent);
+        entity.add(playerComponent);
         return entity;
     }
 

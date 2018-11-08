@@ -16,7 +16,7 @@ public class TransformComponent implements Component, Pool.Poolable {
         return position;
     }
 
-    public void setPosition(Vector3 position) {
+    public void setPosition(Vector2 position) {
         this.position = position;
     }
 

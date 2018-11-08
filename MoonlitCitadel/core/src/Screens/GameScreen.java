@@ -3,6 +3,7 @@ package Screens;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -16,6 +17,8 @@ import com.mygdx.game.MoonlitCitadel;
 
 import Helpers.Figures;
 import Helpers.GameInput;
+import Systems.PhysicsDebugSystem;
+import Systems.PhysicsSystem;
 
 public class GameScreen implements Screen {
 
@@ -34,13 +37,15 @@ public class GameScreen implements Screen {
     private GameInput gameInput;
     //ashley
     private PooledEngine engine;
+    private PhysicsSystem physicsSystem;
+    private PhysicsDebugSystem physicsDebugSystem;
 
     public GameScreen(MoonlitCitadel game, SpriteBatch batch) {
         this.batch = batch;
         this.game = game;
 
         gravity = new Vector2(0,-9.8f);
-        world = new World(gravity, false);
+        world = new World(Figures.GRAVITATIONAL_FORCES, false);
         b2dr = new Box2DDebugRenderer();
         camera = new OrthographicCamera();
         gameViewport = new FitViewport(Figures.VIRTUALWIDTH,Figures.VIRTUALHEIGHT,camera);
@@ -49,7 +54,18 @@ public class GameScreen implements Screen {
         gameInput = new GameInput(gameViewport);
 
         engine = new PooledEngine(100,500,300,1000);
+
+        initAshleySystems();
        // camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    }
+
+
+    public void initAshleySystems() {
+        physicsSystem = new PhysicsSystem(world);
+        physicsDebugSystem = new PhysicsDebugSystem(world, camera);
+
+        engine.addSystem(physicsSystem);
+        engine.addSystem(physicsDebugSystem);
     }
 
     public static final String TAG = GameScreen.class.getSimpleName();
@@ -60,7 +76,10 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        Gdx.gl.glClearColor(0,0,0,1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        engine.update(delta);
     }
 
     @Override
@@ -85,6 +104,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
+        world.dispose();
 
     }
 }
