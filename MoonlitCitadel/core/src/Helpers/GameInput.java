@@ -1,5 +1,7 @@
 package Helpers;
 
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.MathUtils;
@@ -7,12 +9,15 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-public class GameInput implements GestureDetector.GestureListener {
+public class GameInput extends InputAdapter implements GestureDetector.GestureListener {
     private Viewport gameViewport;
     private OrthographicCamera camera;
     private Vector3 touch;
 
+    private boolean left, right, up, down;
+
     public GameInput(Viewport gameViewport){
+        super();
         this.gameViewport = gameViewport;
         camera = (OrthographicCamera) gameViewport.getCamera();
         touch = new Vector3(Vector3.Zero);
@@ -35,6 +40,37 @@ public class GameInput implements GestureDetector.GestureListener {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        boolean keyPressed = false;
+        switch (keycode){
+            case Input.Keys.A:
+                left = true;
+                keyPressed = true;
+                break;
+            case Input.Keys.W:
+                up = true;
+                keyPressed = true;
+                break;
+            case Input.Keys.D:
+                right = true;
+                keyPressed = true;
+                break;
+            case Input.Keys.S:
+                down = true;
+                keyPressed = true;
+                break;
+        }
+
+
+        return super.keyDown(keycode);
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return super.keyUp(keycode);
     }
 
     @Override
