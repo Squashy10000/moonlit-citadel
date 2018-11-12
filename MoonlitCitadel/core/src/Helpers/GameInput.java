@@ -44,32 +44,51 @@ public class GameInput extends InputAdapter implements GestureDetector.GestureLi
 
     @Override
     public boolean keyDown(int keycode) {
-        boolean keyPressed = false;
+        boolean keyProcessed = false;
         switch (keycode){
             case Input.Keys.A:
                 left = true;
-                keyPressed = true;
+                keyProcessed = true;
                 break;
             case Input.Keys.W:
                 up = true;
-                keyPressed = true;
+                keyProcessed = true;
                 break;
             case Input.Keys.D:
                 right = true;
-                keyPressed = true;
+                keyProcessed = true;
                 break;
             case Input.Keys.S:
                 down = true;
-                keyPressed = true;
+                keyProcessed = true;
                 break;
         }
 
 
-        return super.keyDown(keycode);
+        return keyProcessed;
     }
 
     @Override
     public boolean keyUp(int keycode) {
+        boolean keyProcessed = false;
+        switch (keycode){
+            case Input.Keys.A:
+                left = false;
+                keyProcessed = true;
+                break;
+            case Input.Keys.W:
+                up = false;
+                keyProcessed = true;
+                break;
+            case Input.Keys.D:
+                right = false;
+                keyProcessed = true;
+                break;
+            case Input.Keys.S:
+                down = false;
+                keyProcessed = true;
+                break;
+        }
         return super.keyUp(keycode);
     }
 
@@ -107,4 +126,24 @@ public class GameInput extends InputAdapter implements GestureDetector.GestureLi
     public void pinchStop() {
 
     }
+
+    public boolean isLeft() {
+        return left;
+    }
+
+
+    public boolean isRight() {
+        return right;
+    }
+
+
+    public boolean isUp() {
+        return up;
+    }
+
+
+    public boolean isDown() {
+        return down;
+    }
+
 }
