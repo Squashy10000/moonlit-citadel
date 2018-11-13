@@ -14,6 +14,7 @@ public class MenuScreen implements Screen {
     private SpriteBatch batch;
     private Texture img;
     private MoonlitCitadel game;
+    private float waitTime = 2f;
 
 
     private GameInput gameInput;
@@ -34,6 +35,11 @@ public class MenuScreen implements Screen {
         Gdx.app.log(TAG, "menu render");
         Gdx.gl.glClearColor(1, 0, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        waitTime-=delta;
+        if(waitTime<=0){
+            game.setScreen(MoonlitCitadel.SCREENTYPE.GAME);
+            waitTime=2f;
+        }
     }
 
     @Override

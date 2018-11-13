@@ -19,6 +19,7 @@ import Helpers.Figures;
 import Helpers.GameInput;
 import Systems.PhysicsDebugSystem;
 import Systems.PhysicsSystem;
+import Systems.PlayerControlSystem;
 
 public class GameScreen implements Screen {
 
@@ -39,6 +40,7 @@ public class GameScreen implements Screen {
     private PooledEngine engine;
     private PhysicsSystem physicsSystem;
     private PhysicsDebugSystem physicsDebugSystem;
+    private PlayerControlSystem playerControlSystem;
 
     public GameScreen(MoonlitCitadel game, SpriteBatch batch) {
         this.batch = batch;
@@ -63,9 +65,11 @@ public class GameScreen implements Screen {
     public void initAshleySystems() {
         physicsSystem = new PhysicsSystem(world);
         physicsDebugSystem = new PhysicsDebugSystem(world, camera);
+        playerControlSystem = new PlayerControlSystem(gameInput);
 
         engine.addSystem(physicsSystem);
         engine.addSystem(physicsDebugSystem);
+        engine.addSystem(playerControlSystem);
     }
 
     public static final String TAG = GameScreen.class.getSimpleName();
@@ -76,7 +80,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0,0,0,1);
+        Gdx.gl.glClearColor(0.2f,0.2f,0.2f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         engine.update(delta);

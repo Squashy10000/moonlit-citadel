@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 
 import Components.BodyComponent;
+import Components.PlayerComponent;
 import Components.StateComponent;
 import Helpers.GameInput;
 import Helpers.Mappers;
@@ -13,8 +14,8 @@ public class PlayerControlSystem extends IteratingSystem {
 
     private GameInput gameInput;
 
-    public PlayerControlSystem(Family family, GameInput gameInput) {
-        super(family);
+    public PlayerControlSystem(GameInput gameInput) {
+        super(Family.all(PlayerComponent.class).get());
         this.gameInput = gameInput;
     }
 
@@ -43,6 +44,9 @@ public class PlayerControlSystem extends IteratingSystem {
             bodyComponent.getBody().setLinearVelocity(0f, -1f);
             stateComponent.setDirection(StateComponent.DIRECTION.DOWN);
             stateComponent.setState(StateComponent.STATE.MOVING);
+        }
+        if (!gameInput.isLeft()&&!gameInput.isDown()&&!gameInput.isRight()&&!gameInput.isUp()){
+            stateComponent.setState(StateComponent.STATE.IDLE);
         }
     }
 }
