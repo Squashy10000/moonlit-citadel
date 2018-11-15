@@ -34,6 +34,7 @@ public class BodyGenerator {
                 bdef.type = BodyDef.BodyType.KinematicBody;
                 break;
         }
+        bdef.position.set(position.x+dimensions.x/2, position.y+dimensions.y/2);
         bdef.gravityScale = 1;
         Shape shape;
         switch (bodyType){

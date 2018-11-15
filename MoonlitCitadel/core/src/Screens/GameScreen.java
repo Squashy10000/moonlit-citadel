@@ -1,5 +1,6 @@
 package Screens;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -17,6 +18,7 @@ import com.mygdx.game.MoonlitCitadel;
 
 import Helpers.Figures;
 import Helpers.GameInput;
+import Managers.EntityManager;
 import Systems.PhysicsDebugSystem;
 import Systems.PhysicsSystem;
 import Systems.PlayerControlSystem;
@@ -41,6 +43,9 @@ public class GameScreen implements Screen {
     private PhysicsSystem physicsSystem;
     private PhysicsDebugSystem physicsDebugSystem;
     private PlayerControlSystem playerControlSystem;
+    //entity manager
+    private EntityManager entityManager;
+    private Entity player;
 
     public GameScreen(MoonlitCitadel game, SpriteBatch batch) {
         this.batch = batch;
@@ -58,6 +63,7 @@ public class GameScreen implements Screen {
         engine = new PooledEngine(100,500,300,1000);
 
         initAshleySystems();
+        entityManager = new EntityManager(game, world, this.batch, engine);
        // camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
@@ -75,12 +81,13 @@ public class GameScreen implements Screen {
     public static final String TAG = GameScreen.class.getSimpleName();
     @Override
     public void show() {
+        player = entityManager.spawnEntity("Player", 8,5);
 
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0.2f,0.2f,0.2f,1);
+        Gdx.gl.glClearColor(0.4f,0.4f,0.75f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         engine.update(delta);
