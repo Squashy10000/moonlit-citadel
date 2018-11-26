@@ -34,7 +34,7 @@ public class BodyGenerator {
                 bdef.type = BodyDef.BodyType.KinematicBody;
                 break;
         }
-        bdef.position.set(position.x+dimensions.x/2, position.y+dimensions.y/2);
+
         bdef.gravityScale = 1;
         Shape shape;
         switch (bodyType){
@@ -42,12 +42,12 @@ public class BodyGenerator {
             default:
                 shape = new CircleShape();
                 shape.setRadius(dimensions.x/2);
-                bdef.position.set(dimensions.x/2, dimensions.x/2);
+                bdef.position.set(position.x+dimensions.x/2, position.y+dimensions.y/2);
                 break;
             case 1:
                 shape = new PolygonShape();
                 ((PolygonShape)shape).setAsBox(dimensions.x/2, dimensions.y/2);
-                bdef.position.set(dimensions.x/2, dimensions.y/2);
+                bdef.position.set(position.x+dimensions.x/2, position.y+dimensions.y/2);
                 break;
         }
 

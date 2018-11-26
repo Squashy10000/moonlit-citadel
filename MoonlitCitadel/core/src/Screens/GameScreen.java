@@ -82,6 +82,7 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         player = entityManager.spawnEntity("Player", 8,5);
+        Gdx.input.setInputProcessor(gameInput);
 
     }
 
