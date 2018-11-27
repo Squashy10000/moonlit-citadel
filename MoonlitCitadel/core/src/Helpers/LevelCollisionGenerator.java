@@ -1,6 +1,7 @@
 package Helpers;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -11,19 +12,26 @@ import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 
 import Components.BodyComponent;
+import Components.TypeComponent;
 
-public class BodyGenerator {
+public class LevelCollisionGenerator {
+
+    public static final String TAG = LevelCollisionGenerator.class.getSimpleName();
     private World world;
-    public BodyGenerator(World world){
+    private PooledEngine engine;
+
+
+    public LevelCollisionGenerator(World world, PooledEngine engine) {
         this.world = world;
+        this.engine = engine;
     }
-
-
-    public Body createBody(Entity entity, Vector2 position, Vector2 dimensions,
-                           BodyDef.BodyType type, int bodyType, FixtureDef fixtureDef){
+    public void createCollisionLevel(Vector2 position, Vector2 dimensions,
+                                     BodyDef.BodyType type, int bodyType){
         Body body;
         BodyDef bdef = new BodyDef();
-        FixtureDef fdef = fixtureDef;
+        FixtureDef fdef = new FixtureDef();
+        Entity levelEntity = engine.createEntity();
+
 
         switch (type) {
             case StaticBody:
@@ -59,16 +67,15 @@ public class BodyGenerator {
         fdef.density = 1f;
         fdef.restitution = .75f;
         fdef.friction = 0;
-        body.createFixture(fdef);
+        body.createFixture(fdef).setUserData(levelEntity);
 
+        BodyComponent bodyComponent = engine.createComponent(BodyComponent.class);
+        bodyComponent.setBody(body);
 
+        TypeComponent typeComponent = engine.createComponent(TypeComponent.class);
+        typeComponent.setType(Figures.LEVEL);
 
         shape.dispose();
-
-        return body;
-
     }
 
-
 }
-

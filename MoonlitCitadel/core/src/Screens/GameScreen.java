@@ -18,6 +18,7 @@ import com.mygdx.game.MoonlitCitadel;
 
 import Helpers.Figures;
 import Helpers.GameInput;
+import Managers.CollisionManager;
 import Managers.EntityManager;
 import Systems.PhysicsDebugSystem;
 import Systems.PhysicsSystem;
@@ -32,6 +33,7 @@ public class GameScreen implements Screen {
     private World world;
     private Body body;
     private Vector2 gravity;
+    private CollisionManager collisionManager;
     //view
     private OrthographicCamera camera;
     private Viewport gameViewport;
@@ -64,7 +66,8 @@ public class GameScreen implements Screen {
 
         initAshleySystems();
         entityManager = new EntityManager(game, world, this.batch, engine);
-       // camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        collisionManager = new CollisionManager();
+        world.setContactListener(collisionManager);
     }
 
 
