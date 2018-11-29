@@ -25,8 +25,8 @@ public class LevelCollisionGenerator {
         this.world = world;
         this.engine = engine;
     }
-    public void createCollisionLevel(Vector2 position, Vector2 dimensions,
-                                     BodyDef.BodyType type, int bodyType){
+    public Entity createCollisionLevel(Vector2 position, Vector2 dimensions,
+                                     BodyDef.BodyType type, int bodyType) {
         Body body;
         BodyDef bdef = new BodyDef();
         FixtureDef fdef = new FixtureDef();
@@ -47,21 +47,25 @@ public class LevelCollisionGenerator {
 
         bdef.gravityScale = 1;
         Shape shape;
-        switch (bodyType){
+        switch (bodyType) {
             case 0:
             default:
                 shape = new CircleShape();
-                shape.setRadius(dimensions.x/2);
-                bdef.position.set(position.x+dimensions.x/2, position.y+dimensions.y/2);
+                shape.setRadius(dimensions.x / 2);
+                bdef.position.set(position.x + dimensions.x / 2, position.y + dimensions.y / 2);
                 break;
             case 1:
                 shape = new PolygonShape();
-                ((PolygonShape)shape).setAsBox(dimensions.x/2, dimensions.y/2);
-                bdef.position.set(position.x+dimensions.x/2, position.y+dimensions.y/2);
+                ((PolygonShape) shape).setAsBox(dimensions.x / 2, dimensions.y / 2);
+                bdef.position.set(position.x + dimensions.x / 2, position.y + dimensions.y / 2);
                 break;
         }
 
         body = world.createBody(bdef);
+
+        //needs to collide
+        fdef.filter.categoryBits = Figures.LEVEL;
+        fdef.filter.maskBits = Figures.PLAYER | Figures.ENEMY;
 
         fdef.shape = shape;
         fdef.density = 1f;
@@ -75,7 +79,15 @@ public class LevelCollisionGenerator {
         TypeComponent typeComponent = engine.createComponent(TypeComponent.class);
         typeComponent.setType(Figures.LEVEL);
 
+        levelEntity.add(bodyComponent);
+        levelEntity.add(typeComponent);
+
+
         shape.dispose();
+
+        engine.addEntity(levelEntity);
+
+        return levelEntity;
     }
 
 }

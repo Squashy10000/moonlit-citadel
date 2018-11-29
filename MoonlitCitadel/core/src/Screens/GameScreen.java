@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -18,6 +19,7 @@ import com.mygdx.game.MoonlitCitadel;
 
 import Helpers.Figures;
 import Helpers.GameInput;
+import Helpers.LevelCollisionGenerator;
 import Managers.CollisionManager;
 import Managers.EntityManager;
 import Systems.PhysicsDebugSystem;
@@ -48,10 +50,18 @@ public class GameScreen implements Screen {
     //entity manager
     private EntityManager entityManager;
     private Entity player;
+    //level generator
+    private LevelCollisionGenerator levelCollisionGenerator;
+    private Entity ground;
+    // temp variables
+    private Vector2 tempPosition;
+    private Vector2 tempDimensions;
 
     public GameScreen(MoonlitCitadel game, SpriteBatch batch) {
         this.batch = batch;
         this.game = game;
+        tempDimensions = new Vector2(Vector2.Zero);
+        tempPosition = new Vector2(Vector2.Zero);
 
         gravity = new Vector2(0,-9.8f);
         world = new World(Figures.GRAVITATIONAL_FORCES, false);
@@ -66,6 +76,7 @@ public class GameScreen implements Screen {
 
         initAshleySystems();
         entityManager = new EntityManager(game, world, this.batch, engine);
+        levelCollisionGenerator = new LevelCollisionGenerator(world, engine);
         collisionManager = new CollisionManager();
         world.setContactListener(collisionManager);
     }
@@ -84,7 +95,17 @@ public class GameScreen implements Screen {
     public static final String TAG = GameScreen.class.getSimpleName();
     @Override
     public void show() {
+        Gdx.input.setInputProcessor(gameInput);
         player = entityManager.spawnEntity("Player", 8,5);
+
+        //testing level gen
+        tempPosition.x = 0;
+        tempPosition.y = 1;
+        tempDimensions.x = gameViewport.getWorldWidth();
+        tempDimensions.y = 1;
+        ground = levelCollisionGenerator.createCollisionLevel(tempPosition, tempDimensions, BodyDef.BodyType.StaticBody,1);
+
+
         Gdx.input.setInputProcessor(gameInput);
 
     }
