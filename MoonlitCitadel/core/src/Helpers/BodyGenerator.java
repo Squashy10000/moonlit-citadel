@@ -57,7 +57,7 @@ public class BodyGenerator {
 
         fdef.shape = shape;
         fdef.density = 1f;
-        fdef.restitution = .75f;
+        fdef.restitution = 0f;
         fdef.friction = 0;
         body.createFixture(fdef);
 
