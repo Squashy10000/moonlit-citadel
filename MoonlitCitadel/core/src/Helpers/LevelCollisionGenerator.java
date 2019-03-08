@@ -46,14 +46,17 @@ public class LevelCollisionGenerator {
         levelEntities = new Array<Entity>();
     }
     public void createCollisionLevel(TiledMap map) {
+        Gdx.app.log(TAG,"setting map");
         this.map = map;
+        Gdx.app.log(TAG,"Getting collision layer");
         MapLayer layer = map.getLayers().get(COLLISION_LAYER);
-
+        Gdx.app.log(TAG, "getting map objects");
         for(MapObject object: layer.getObjects()){
         LevelGeometry geometry = null;
         if(object instanceof TextureMapObject){
             continue;
         }
+            Gdx.app.log(TAG,"creating shape variable, getting bodytypes");
             Shape shape;
             BodyDef bdef = new BodyDef();
             String type = object.getProperties().get("Type",String.class);
@@ -68,21 +71,25 @@ public class LevelCollisionGenerator {
                     bdef.type = BodyDef.BodyType.KinematicBody;
                     break;
             }
-
+            Gdx.app.log(TAG,"map shapes");
             if(object instanceof RectangleMapObject){
+                Gdx.app.log(TAG, "rectangle");
                 geometry = getRectangle((RectangleMapObject)object);
                 shape = geometry.getShape();
             }
 
             else if(object instanceof PolylineMapObject){
+                Gdx.app.log(TAG,"polyline");
                 geometry = getPolyline((PolylineMapObject)object);
                 shape = geometry.getShape();
             }
             else if(object instanceof PolygonMapObject){
+                Gdx.app.log(TAG,"polygon");
                 geometry = getPolygon((PolygonMapObject)object);
                 shape = geometry.getShape();
             }
             else if(object instanceof CircleMapObject){
+                Gdx.app.log(TAG,"circle");
                 geometry = getCircle((CircleMapObject)object);
                 shape = geometry.getShape();
             }
@@ -90,13 +97,14 @@ public class LevelCollisionGenerator {
                 Gdx.app.log(TAG, "Unrecognised map shape "+object.toString());
                 continue;
             }
+            Gdx.app.log(TAG,"fixturedef");
             FixtureDef fdef = new FixtureDef();
             fdef.shape = shape;
             fdef.isSensor = false;
             fdef.density = 1f;
             fdef.restitution = 0f;
             fdef.friction = 0;
-
+            Gdx.app.log(TAG,"categorybits");
             fdef.filter.categoryBits = Figures.LEVEL;
             fdef.filter.maskBits = Figures.PLAYER | Figures.ENEMY;
             Body body = world.createBody(bdef);
