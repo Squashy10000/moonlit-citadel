@@ -8,6 +8,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -53,6 +56,8 @@ public class GameScreen implements Screen {
     //level generator
     private LevelCollisionGenerator levelCollisionGenerator;
     private Entity ground;
+    private OrthogonalTiledMapRenderer mapRenderer;
+    private TiledMap map;
     // temp variables
     private Vector2 tempPosition;
     private Vector2 tempDimensions;
@@ -75,6 +80,11 @@ public class GameScreen implements Screen {
         engine = new PooledEngine(100,500,300,1000);
 
         initAshleySystems();
+
+        map = new TmxMapLoader().load("TiledMap.tmx");
+        mapRenderer = new OrthogonalTiledMapRenderer(map,this.batch);
+        levelCollisionGenerator.createCollisionLevel(map);
+
         entityManager = new EntityManager(game, world, this.batch, engine);
         levelCollisionGenerator = new LevelCollisionGenerator(world, engine);
         collisionManager = new CollisionManager();
@@ -103,7 +113,7 @@ public class GameScreen implements Screen {
         tempPosition.y = 1;
         tempDimensions.x = gameViewport.getWorldWidth();
         tempDimensions.y = 1;
-        ground = levelCollisionGenerator.createCollisionLevel(tempPosition, tempDimensions, BodyDef.BodyType.StaticBody,1);
+      //  ground = levelCollisionGenerator.createCollisionLevel(tempPosition, tempDimensions, BodyDef.BodyType.StaticBody,1);
 
 
         Gdx.input.setInputProcessor(gameInput);
@@ -115,6 +125,7 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(0.5f,0.5f,0.76f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        mapRenderer.render();
         engine.update(delta);
     }
 
