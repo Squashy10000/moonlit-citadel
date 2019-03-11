@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.CircleMapObject;
+import com.badlogic.gdx.maps.objects.EllipseMapObject;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.objects.PolylineMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -46,14 +47,17 @@ public class LevelCollisionGenerator {
         levelEntities = new Array<Entity>();
     }
     public void createCollisionLevel(TiledMap map) {
+        Gdx.app.log(TAG,"setting map");
         this.map = map;
+        Gdx.app.log(TAG,"Getting collision layer");
         MapLayer layer = map.getLayers().get(COLLISION_LAYER);
-
+        Gdx.app.log(TAG, "getting map objects");
         for(MapObject object: layer.getObjects()){
         LevelGeometry geometry = null;
         if(object instanceof TextureMapObject){
             continue;
         }
+            Gdx.app.log(TAG,"creating shape variable, getting bodytypes");
             Shape shape;
             BodyDef bdef = new BodyDef();
             String type = object.getProperties().get("Type",String.class);
@@ -68,35 +72,51 @@ public class LevelCollisionGenerator {
                     bdef.type = BodyDef.BodyType.KinematicBody;
                     break;
             }
-
+            Gdx.app.log(TAG,"map shapes");
             if(object instanceof RectangleMapObject){
+                Gdx.app.log(TAG, "rectangle");
                 geometry = getRectangle((RectangleMapObject)object);
                 shape = geometry.getShape();
             }
 
             else if(object instanceof PolylineMapObject){
+                Gdx.app.log(TAG,"polyline");
                 geometry = getPolyline((PolylineMapObject)object);
                 shape = geometry.getShape();
             }
             else if(object instanceof PolygonMapObject){
+                Gdx.app.log(TAG,"polygon");
                 geometry = getPolygon((PolygonMapObject)object);
                 shape = geometry.getShape();
             }
             else if(object instanceof CircleMapObject){
+                Gdx.app.log(TAG,"circle");
                 geometry = getCircle((CircleMapObject)object);
                 shape = geometry.getShape();
+            }
+            else if(object instanceof EllipseMapObject) {
+                Gdx.app.log(TAG, "ellipse");
+                if (((EllipseMapObject) object).getEllipse().width == ((EllipseMapObject) object).getEllipse().height) {
+                    geometry = getEllipse((EllipseMapObject) object);
+                    shape = geometry.getShape();
+                }
+                else {
+                    Gdx.app.log(TAG, "Unrecognised map shape " + object.toString());
+                    continue;
+                }
             }
             else {
                 Gdx.app.log(TAG, "Unrecognised map shape "+object.toString());
                 continue;
             }
+            Gdx.app.log(TAG,"fixturedef");
             FixtureDef fdef = new FixtureDef();
             fdef.shape = shape;
             fdef.isSensor = false;
             fdef.density = 1f;
             fdef.restitution = 0f;
             fdef.friction = 0;
-
+            Gdx.app.log(TAG,"categorybits");
             fdef.filter.categoryBits = Figures.LEVEL;
             fdef.filter.maskBits = Figures.PLAYER | Figures.ENEMY;
             Body body = world.createBody(bdef);
@@ -135,6 +155,9 @@ public class LevelCollisionGenerator {
 
     }
 
+    private LevelGeometry getEllipse(EllipseMapObject ellipseMapObject) {
+    }
+
     private LevelGeometry getRectangle(RectangleMapObject rectangleMapObject){
         Rectangle rectangle = rectangleMapObject.getRectangle();
         PolygonShape polygon = new PolygonShape();
@@ -147,8 +170,13 @@ public class LevelCollisionGenerator {
     private LevelGeometry getPolygon(PolygonMapObject polygonMapObject){
         PolygonShape polygon = new PolygonShape();
         float[]vertices = polygonMapObject.getPolygon().getTransformedVertices();
+        float[]worldVertices = new float[vertices.length];
 
-        polygon.set(vertices);
+        for(int i = 0; i<vertices.length; i++){
+            worldVertices[i]=vertices[i]/Figures.PPM;
+        }
+
+        polygon.set(worldVertices);
 
 
         return new LevelGeometry(polygon);
@@ -158,10 +186,10 @@ public class LevelCollisionGenerator {
         float[] vertices = polylineMapObject.getPolyline().getTransformedVertices();
         Vector2[] worldVertices = new Vector2[vertices.length/2];
 
-        for(int i=0;i<vertices.length;i++){
+        for(int i=0;i<worldVertices.length;i++){
             worldVertices[i] = new Vector2();
-            worldVertices[i].x = vertices[i*2];
-            worldVertices[i].y = vertices[i*2+1];
+            worldVertices[i].x = vertices[i*2]/Figures.PPM;
+            worldVertices[i].y = vertices[i*2+1]/Figures.PPM;
         }
         ChainShape chain = new ChainShape();
         chain.createChain(worldVertices);

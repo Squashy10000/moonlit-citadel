@@ -63,11 +63,12 @@ public class GameScreen implements Screen {
     private Vector2 tempDimensions;
 
     public GameScreen(MoonlitCitadel game, SpriteBatch batch) {
+        Gdx.app.log(TAG, "batch mode");
         this.batch = batch;
         this.game = game;
         tempDimensions = new Vector2(Vector2.Zero);
         tempPosition = new Vector2(Vector2.Zero);
-
+        Gdx.app.log(TAG, "world settings");
         gravity = new Vector2(0,-9.8f);
         world = new World(Figures.GRAVITATIONAL_FORCES, false);
         b2dr = new Box2DDebugRenderer();
@@ -78,16 +79,20 @@ public class GameScreen implements Screen {
         gameInput = new GameInput(gameViewport);
 
         engine = new PooledEngine(100,500,300,1000);
-
+        Gdx.app.log(TAG,"init ashley systems");
         initAshleySystems();
-
+        Gdx.app.log(TAG, "tiled map");
         map = new TmxMapLoader().load("TiledMap.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(map,this.batch);
-        levelCollisionGenerator.createCollisionLevel(map);
 
+        Gdx.app.log(TAG, "entitymanager");
         entityManager = new EntityManager(game, world, this.batch, engine);
         levelCollisionGenerator = new LevelCollisionGenerator(world, engine);
+        Gdx.app.log(TAG, "collision manager");
         collisionManager = new CollisionManager();
+        Gdx.app.log(TAG,"levelcollsiongenerator to tiledmap");
+        levelCollisionGenerator.createCollisionLevel(map);
+        Gdx.app.log(TAG, "worldcontactlistener");
         world.setContactListener(collisionManager);
     }
 
