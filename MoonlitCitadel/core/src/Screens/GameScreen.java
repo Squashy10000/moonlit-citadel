@@ -20,6 +20,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.MoonlitCitadel;
 
+import Components.BodyComponent;
 import Helpers.Figures;
 import Helpers.GameInput;
 import Helpers.LevelCollisionGenerator;
@@ -83,7 +84,7 @@ public class GameScreen implements Screen {
         initAshleySystems();
         Gdx.app.log(TAG, "tiled map");
         map = new TmxMapLoader().load("TiledMap.tmx");
-        mapRenderer = new OrthogonalTiledMapRenderer(map,this.batch);
+        mapRenderer = new OrthogonalTiledMapRenderer(map,1/Figures.PPM,this.batch);
 
         Gdx.app.log(TAG, "entitymanager");
         entityManager = new EntityManager(game, world, this.batch, engine);
@@ -127,9 +128,13 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
+
+        camera.position.set(player.getComponent(BodyComponent.class).getBody().getPosition(),0);
+        camera.update();
+
         Gdx.gl.glClearColor(0.5f,0.5f,0.76f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
+        mapRenderer.setView(camera);
         mapRenderer.render();
         engine.update(delta);
     }

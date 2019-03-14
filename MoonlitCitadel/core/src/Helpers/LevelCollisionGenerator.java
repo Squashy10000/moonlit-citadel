@@ -13,6 +13,7 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Ellipse;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -156,14 +157,19 @@ public class LevelCollisionGenerator {
     }
 
     private LevelGeometry getEllipse(EllipseMapObject ellipseMapObject) {
+        Ellipse ellipse = ellipseMapObject.getEllipse();
+        CircleShape circleShape = new CircleShape();
+        circleShape.setRadius(ellipse.height/2);
+        circleShape.setPosition(new Vector2((ellipse.x+ellipse.width/2)/Figures.PPM,(ellipse.y+ellipse.height/2)/Figures.PPM));
+        return new LevelGeometry(circleShape);
     }
 
     private LevelGeometry getRectangle(RectangleMapObject rectangleMapObject){
         Rectangle rectangle = rectangleMapObject.getRectangle();
         PolygonShape polygon = new PolygonShape();
 
-        Vector2 size = new Vector2(rectangle.x+rectangle.width,rectangle.y+rectangle.height);
-        polygon.setAsBox(rectangle.width/2,rectangle.height/2,size,0.0f);
+        Vector2 size = new Vector2((rectangle.x+rectangle.width/2)/Figures.PPM,(rectangle.y+rectangle.height/2)/Figures.PPM);
+        polygon.setAsBox((rectangle.width/2)/Figures.PPM,(rectangle.height/2)/Figures.PPM,size,0.0f);
 
         return new LevelGeometry(polygon);
     }
@@ -199,8 +205,8 @@ public class LevelCollisionGenerator {
     private LevelGeometry getCircle(CircleMapObject circleMapObject){
         Circle circle = circleMapObject.getCircle();
         CircleShape circleShape = new CircleShape();
-        circleShape.setRadius(circle.radius);
-        circleShape.setPosition(new Vector2(circle.x,circle.y));
+        circleShape.setRadius(circle.radius/Figures.PPM);
+        circleShape.setPosition(new Vector2(circle.x/Figures.PPM,circle.y/Figures.PPM));
 
         return new LevelGeometry(circleShape);
     }
