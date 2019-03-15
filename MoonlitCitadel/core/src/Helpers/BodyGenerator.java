@@ -40,15 +40,15 @@ public class BodyGenerator {
         bdef.gravityScale = 1;
         Shape shape;
         switch (bodyType){
-            case 0:
+            case 1:
             default:
                 shape = new CircleShape();
-                shape.setRadius(dimensions.x/2);
+                shape.setRadius(dimensions.x/2-(1/Figures.PPM));
                 bdef.position.set(position.x+dimensions.x/2, position.y+dimensions.y/2);
                 break;
-            case 1:
+            case 0:
                 shape = new PolygonShape();
-                ((PolygonShape)shape).setAsBox(dimensions.x/2, dimensions.y/2);
+                ((PolygonShape)shape).setAsBox(dimensions.x/2-(1/Figures.PPM), dimensions.y/2-(1/Figures.PPM));
                 bdef.position.set(position.x+dimensions.x/2, position.y+dimensions.y/2);
                 break;
         }
