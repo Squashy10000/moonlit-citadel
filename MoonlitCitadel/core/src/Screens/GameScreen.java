@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -26,6 +27,7 @@ import Helpers.GameInput;
 import Helpers.LevelCollisionGenerator;
 import Managers.CollisionManager;
 import Managers.EntityManager;
+import Managers.MyAssetManager;
 import Systems.PhysicsDebugSystem;
 import Systems.PhysicsSystem;
 import Systems.PlayerControlSystem;
@@ -33,6 +35,9 @@ import Systems.PlayerControlSystem;
 public class GameScreen implements Screen {
 
     private SpriteBatch batch;
+    private AssetManager assetManager;
+    public MyAssetManager myAssetManager;
+
     private Texture img;
     private MoonlitCitadel game;
     //box2d
