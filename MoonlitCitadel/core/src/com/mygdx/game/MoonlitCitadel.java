@@ -4,12 +4,15 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.Hashtable;
 
+import Managers.MyAssetManager;
 import Screens.CreditScreen;
 import Screens.GameScreen;
 import Screens.LoadScreen;
@@ -22,6 +25,9 @@ public class MoonlitCitadel extends Game {
 
 	SpriteBatch batch;
 	Texture img;
+
+	private AssetManager assetManager;
+	public MyAssetManager myAssetManager;
 
     private LoadScreen loadScreen;
     private MenuScreen menuScreen;
@@ -74,6 +80,8 @@ public class MoonlitCitadel extends Game {
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
 		//setScreen(SCREENTYPE.LOAD);
+		assetManager = new AssetManager(new InternalFileHandleResolver());
+		myAssetManager = new MyAssetManager(assetManager);
 		setScreen(SCREENTYPE.GAME);
 
 	}
