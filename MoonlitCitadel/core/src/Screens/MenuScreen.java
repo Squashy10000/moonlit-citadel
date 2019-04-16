@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.MoonlitCitadel;
 
 import Helpers.GameInput;
+import Managers.MyAssetManager;
 
 public class MenuScreen implements Screen {
 
@@ -15,13 +16,15 @@ public class MenuScreen implements Screen {
     private Texture img;
     private MoonlitCitadel game;
     private float waitTime = 2f;
+    private MyAssetManager myAssetManager;
 
 
     private GameInput gameInput;
 
-    public MenuScreen(MoonlitCitadel game, SpriteBatch batch) {
+    public MenuScreen(MoonlitCitadel game, SpriteBatch batch, MyAssetManager myAssetManager) {
         this.batch = batch;
         this.game = game;
+        this.myAssetManager = myAssetManager;
     }
 
     public static final String TAG = MenuScreen.class.getSimpleName();

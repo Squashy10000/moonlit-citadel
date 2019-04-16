@@ -68,10 +68,11 @@ public class GameScreen implements Screen {
     private Vector2 tempPosition;
     private Vector2 tempDimensions;
 
-    public GameScreen(MoonlitCitadel game, SpriteBatch batch) {
+    public GameScreen(MoonlitCitadel game, SpriteBatch batch, MyAssetManager myAssetManager) {
         Gdx.app.log(TAG, "batch mode");
         this.batch = batch;
         this.game = game;
+        this.myAssetManager = myAssetManager;
         tempDimensions = new Vector2(Vector2.Zero);
         tempPosition = new Vector2(Vector2.Zero);
         Gdx.app.log(TAG, "world settings");
@@ -88,7 +89,7 @@ public class GameScreen implements Screen {
         Gdx.app.log(TAG,"init ashley systems");
         initAshleySystems();
         Gdx.app.log(TAG, "tiled map");
-        map = new TmxMapLoader().load("TiledMap.tmx");
+        map = myAssetManager.getMapAsset("TiledMap.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(map,1/Figures.PPM,this.batch);
 
         Gdx.app.log(TAG, "entitymanager");

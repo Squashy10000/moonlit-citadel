@@ -7,16 +7,20 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.MoonlitCitadel;
 
+import Managers.MyAssetManager;
+
 public class LoadScreen implements Screen {
 
     private SpriteBatch batch;
     private Texture img;
     private MoonlitCitadel game;
     private float waitTime = 2f;
+    private MyAssetManager myAssetManager;
 
-    public LoadScreen(MoonlitCitadel game, SpriteBatch batch) {
+    public LoadScreen(MoonlitCitadel game, SpriteBatch batch, MyAssetManager myAssetManager) {
         this.game = game;
         this.batch = batch;
+        this.myAssetManager = myAssetManager;
         img = new Texture("badlogic.jpg");
     }
 
@@ -35,6 +39,7 @@ public class LoadScreen implements Screen {
         batch.draw(img, 0, 0);
         batch.end();
         waitTime-=delta;
+        loadingMapAssets();
         if(waitTime<=0){
             game.setScreen(MoonlitCitadel.SCREENTYPE.MENU);
             waitTime=2f;
@@ -66,5 +71,9 @@ public class LoadScreen implements Screen {
     public void dispose() {
         Gdx.app.log(TAG, "in loading screen dispose method");
         img.dispose();
+    }
+
+    private void loadingMapAssets(){
+        myAssetManager.loadMapAsset("TiledMap.tmx");
     }
 }

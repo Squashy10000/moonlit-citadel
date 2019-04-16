@@ -5,15 +5,19 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.MoonlitCitadel;
 
+import Managers.MyAssetManager;
+
 public class CreditScreen implements Screen {
 
     private SpriteBatch batch;
     private Texture img;
     private MoonlitCitadel game;
+    private MyAssetManager myAssetManager;
 
-    public CreditScreen(MoonlitCitadel game, SpriteBatch batch) {
+    public CreditScreen(MoonlitCitadel game, SpriteBatch batch, MyAssetManager myAssetManager) {
         this.batch = batch;
         this.game = game;
+        this.myAssetManager = myAssetManager;
     }
 
     public static final String TAG = CreditScreen.class.getSimpleName();

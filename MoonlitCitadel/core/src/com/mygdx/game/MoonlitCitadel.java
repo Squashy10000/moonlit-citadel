@@ -45,24 +45,24 @@ public class MoonlitCitadel extends Game {
         switch(type){
             case GAME:
             	if(gameScreen == null) {
-            		gameScreen = new GameScreen(this, batch);
+            		gameScreen = new GameScreen(this, batch, myAssetManager);
             		screenTable.put(SCREENTYPE.GAME, gameScreen);
 				}
             case LOAD:
                 if(loadScreen == null){
-					loadScreen = new LoadScreen(this, batch);
+					loadScreen = new LoadScreen(this, batch, myAssetManager);
 					screenTable.put(SCREENTYPE.LOAD, loadScreen);
                 }
                 break;
             case MENU:
             	if(menuScreen == null){
-            		menuScreen = new MenuScreen(this, batch);
+            		menuScreen = new MenuScreen(this, batch, myAssetManager);
             		screenTable.put(SCREENTYPE.MENU, menuScreen);
 				}
 				break;
             case CREDITS:
             	if(creditScreen == null){
-            		creditScreen = new CreditScreen(this, batch);
+            		creditScreen = new CreditScreen(this, batch, myAssetManager);
             		screenTable.put(SCREENTYPE.CREDITS, creditScreen);
 				}
         }
@@ -82,7 +82,7 @@ public class MoonlitCitadel extends Game {
 		//setScreen(SCREENTYPE.LOAD);
 		assetManager = new AssetManager(new InternalFileHandleResolver());
 		myAssetManager = new MyAssetManager(assetManager);
-		setScreen(SCREENTYPE.GAME);
+		setScreen(SCREENTYPE.LOAD);
 
 	}
 
