@@ -27,7 +27,10 @@ public class LoadScreen implements Screen {
     public static final String TAG = LoadScreen.class.getSimpleName();
     @Override
     public void show() {
+
         Gdx.app.log(TAG, "in loading screen show method");
+
+        loadingMapAssets();
     }
 
     @Override
@@ -39,8 +42,9 @@ public class LoadScreen implements Screen {
         batch.draw(img, 0, 0);
         batch.end();
         waitTime-=delta;
-        loadingMapAssets();
-        if(waitTime<=0){
+
+        myAssetManager.updateAssetloading();
+        if(waitTime<=0 && myAssetManager.isAssetLoaded("TiledMap.tmx")){
             game.setScreen(MoonlitCitadel.SCREENTYPE.MENU);
             waitTime=2f;
         }
