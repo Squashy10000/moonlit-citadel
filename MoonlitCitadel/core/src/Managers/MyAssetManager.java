@@ -2,6 +2,8 @@ package Managers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.TextureAtlasLoader;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
@@ -61,5 +63,40 @@ public class MyAssetManager {
             return map;
 
         }
+    }
+    public void loadTextureAsset(String filePath){
+
+        if(assetManager.isLoaded(filePath)){
+            return;
+        }
+        if (filePath == null || filePath.isEmpty()){
+            return;
+        }
+        if(assetManager.getFileHandleResolver().resolve(filePath).exists()){
+            assetManager.setLoader(TextureAtlas.class, new TextureAtlasLoader(assetManager.getFileHandleResolver()));
+            assetManager.load(filePath,TiledMap.class);
+
+            assetManager.finishLoadingAsset(filePath);
+            Gdx.app.log(TAG, "texture loaded: " + filePath);
+        }
+        else{
+            Gdx.app.log(TAG, "texture doesn't exist: " +filePath);
+        }
+    }
+    public TextureAtlas getTextureAsset(String filePath){
+        TextureAtlas atlas = null;
+        if (assetManager.isLoaded(filePath)){
+            atlas = assetManager.get(filePath,TextureAtlas.class);
+            return atlas;
+        }
+        else {
+            Gdx.app.log(TAG, "Map is not loaded: " +filePath);
+            return atlas;
+
+        }
+    }
+
+    public void dispose(){
+        assetManager.dispose();
     }
 }

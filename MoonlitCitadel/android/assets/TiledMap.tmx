@@ -151,12 +151,6 @@
     <property name="Spawn" value="Player"/>
    </properties>
   </object>
-  <object id="17" x="205.333" y="298.667" width="16" height="16">
-   <ellipse/>
-  </object>
-  <object id="18" x="116.333" y="359.333" width="48" height="48">
-   <ellipse/>
-  </object>
  </objectgroup>
  <objectgroup name="COLLISION_LAYER">
   <properties>

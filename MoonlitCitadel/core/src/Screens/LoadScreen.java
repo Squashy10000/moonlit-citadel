@@ -80,4 +80,7 @@ public class LoadScreen implements Screen {
     private void loadingMapAssets(){
         myAssetManager.loadMapAsset("TiledMap.tmx");
     }
+    private void loadingTextureAssets(){
+        myAssetManager.loadTextureAsset("sprites/Output/MoonitCitadelAtlas.atlas");
+    }
 }
