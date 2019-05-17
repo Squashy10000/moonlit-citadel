@@ -31,6 +31,7 @@ public class LoadScreen implements Screen {
         Gdx.app.log(TAG, "in loading screen show method");
 
         loadingMapAssets();
+        loadingTextureAssets();
     }
 
     @Override
@@ -44,7 +45,11 @@ public class LoadScreen implements Screen {
         waitTime-=delta;
 
         myAssetManager.updateAssetloading();
-        if(waitTime<=0 && myAssetManager.loadCompleted()==1){
+        Gdx.app.log("LOADING PROGRESS", ""+ myAssetManager.loadCompleted());
+        if(myAssetManager.isAssetLoaded("TiledMap.tmx")&& myAssetManager.isAssetLoaded("sprites/Output/MoonlitCitadelAtlas.atlas") ){
+           if(myAssetManager == null){
+               return;
+           }
             game.setScreen(MoonlitCitadel.SCREENTYPE.MENU);
             waitTime=2f;
         }
@@ -81,6 +86,6 @@ public class LoadScreen implements Screen {
         myAssetManager.loadMapAsset("TiledMap.tmx");
     }
     private void loadingTextureAssets(){
-        myAssetManager.loadTextureAsset("sprites/Output/MoonitCitadelAtlas.atlas");
+        myAssetManager.loadTextureAsset("sprites/Output/MoonlitCitadelAtlas.atlas");
     }
 }

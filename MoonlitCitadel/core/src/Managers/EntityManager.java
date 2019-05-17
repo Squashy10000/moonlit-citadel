@@ -44,6 +44,9 @@ public class EntityManager {
         this.myAssetManager = myAssetManager;
         Gdx.app.log(TAG, "Setting atlas");
         atlas = myAssetManager.getTextureAsset("/sprites/Output/MoonlitCitadelAtlas.atlas");
+        if(atlas==null){
+            Gdx.app.log("MAP IS NOT LOADED AND WILL  BREAK","I DIED!!!!!!!!!!!!!!!!!!!!!ahhhhhhhhhhhhhhhhhhhhhhhhhhhh");
+        }
         tempPositionVector = new Vector2(Vector2.Zero);
         tempDimensionVector = new Vector2(Vector2.Zero);
         generator = new BodyGenerator(world);

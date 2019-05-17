@@ -49,7 +49,7 @@ public class MyAssetManager {
             assetManager.setLoader(TiledMap.class, new TmxMapLoader(assetManager.getFileHandleResolver()));
             assetManager.load(filePath,TiledMap.class);
 
-            assetManager.finishLoadingAsset(filePath);
+          //  assetManager.finishLoadingAsset(filePath);
             Gdx.app.log(TAG, "Map loaded: " + filePath);
         }
         else{
@@ -78,9 +78,9 @@ public class MyAssetManager {
         }
         if(assetManager.getFileHandleResolver().resolve(filePath).exists()){
             assetManager.setLoader(TextureAtlas.class, new TextureAtlasLoader(assetManager.getFileHandleResolver()));
-            assetManager.load(filePath,TiledMap.class);
+            assetManager.load(filePath,TextureAtlas.class);
 
-            assetManager.finishLoadingAsset(filePath);
+           // assetManager.finishLoadingAsset(filePath);
             Gdx.app.log(TAG, "texture loaded: " + filePath);
         }
         else{
