@@ -4,86 +4,100 @@ size: 256,32
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-Nira
+NiraDown
   rotate: false
   xy: 2, 2
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
-  index: -1
-Nira_down_walk1
+  index: 1
+NiraDown
   rotate: false
   xy: 20, 2
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
-  index: -1
-Nira_down_walk2
+  index: 2
+NiraDown
   rotate: false
   xy: 38, 2
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
-  index: -1
-Nira_left_walk1
+  index: 3
+NiraLeft
   rotate: false
   xy: 56, 2
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
-  index: -1
-Nira_left_walk2
+  index: 1
+NiraLeft
   rotate: false
   xy: 74, 2
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
-  index: -1
-Nira_left_walk3
+  index: 2
+NiraLeft
   rotate: false
   xy: 92, 2
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
-  index: -1
-Nira_right_walk1
+  index: 3
+NiraRight
   rotate: false
   xy: 110, 2
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
-  index: -1
-Nira_right_walk2
+  index: 1
+NiraRight
   rotate: false
   xy: 128, 2
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
-  index: -1
-Nira_right_walk3
+  index: 2
+NiraRight
   rotate: false
   xy: 146, 2
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
-  index: -1
-Nira_up_walk1
+  index: 3
+NiraUp
   rotate: false
   xy: 164, 2
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
-  index: -1
-Nira_up_walk2
+  index: 1
+NiraUp
   rotate: false
   xy: 182, 2
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
-  index: -1
-Nira_up_walk3
+  index: 2
+NiraUp
   rotate: false
   xy: 200, 2
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 3
+coindrop
+  rotate: false
+  xy: 218, 2
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+magic2up
+  rotate: false
+  xy: 236, 2
   size: 16, 16
   orig: 16, 16
   offset: 0, 0

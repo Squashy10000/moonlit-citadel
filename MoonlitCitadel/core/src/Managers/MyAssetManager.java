@@ -38,7 +38,11 @@ public class MyAssetManager {
         return assetManager.isLoaded(fileName);
     }
     public void loadMapAsset(String filePath){
+
         if (filePath == null || filePath.isEmpty()){
+            return;
+        }
+        if(assetManager.isLoaded(filePath)){
             return;
         }
         if(assetManager.getFileHandleResolver().resolve(filePath).exists()){

@@ -44,7 +44,7 @@ public class LoadScreen implements Screen {
         waitTime-=delta;
 
         myAssetManager.updateAssetloading();
-        if(waitTime<=0 && myAssetManager.isAssetLoaded("TiledMap.tmx")){
+        if(waitTime<=0 && myAssetManager.loadCompleted()==1){
             game.setScreen(MoonlitCitadel.SCREENTYPE.MENU);
             waitTime=2f;
         }

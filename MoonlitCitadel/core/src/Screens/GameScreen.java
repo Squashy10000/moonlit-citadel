@@ -93,7 +93,7 @@ public class GameScreen implements Screen {
         mapRenderer = new OrthogonalTiledMapRenderer(map,1/Figures.PPM,this.batch);
 
         Gdx.app.log(TAG, "entitymanager");
-        entityManager = new EntityManager(game, world, this.batch, engine);
+        entityManager = new EntityManager(game, world, this.batch, engine, this.myAssetManager);
         levelCollisionGenerator = new LevelCollisionGenerator(world, engine);
         Gdx.app.log(TAG, "collision manager");
         collisionManager = new CollisionManager();
